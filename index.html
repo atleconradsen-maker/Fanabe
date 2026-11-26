@@ -18,7 +18,7 @@
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <script>
 /* auto-oppdatering: hent nyeste versjon når appen åpnes eller kommer tilbake i forgrunnen */
-(function(){var V='20261126205813',last=0;
+(function(){var V='20261126210451',last=0;
 function check(){var n=Date.now();if(n-last<15000)return;last=n;
 fetch('/Fanabe/version.json?t='+n,{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){
 if(j&&j.v&&j.v!==V){var k='fanabe-reload';try{if(sessionStorage.getItem(k)===j.v)return;sessionStorage.setItem(k,j.v);}catch(e){}location.replace(location.pathname+'?v='+j.v+location.hash);}}).catch(function(){});}
@@ -359,6 +359,7 @@ footer .wrap{display:grid;gap:8px}
 .ht-price .pn{font-size:.74rem;color:var(--muted);margin-top:4px}
 .ht-ops{font-size:.86rem;background:var(--banana-soft);border-radius:10px;padding:8px 10px;display:grid;gap:4px}.ht-ops span{color:var(--muted)}.ht-ops a{font-weight:700;text-decoration:none}.ht-ops p{font-size:.84rem}.ht-ops.muted{background:var(--sunk)}
 .hcmp{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px}.hcmp h3{font-size:1.3rem}.hcmp-sub{font-size:.86rem;color:var(--muted)}.hcmp-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hcmp-g div{background:var(--sunk);border-radius:10px;padding:10px 12px;font-size:.92rem}.hcmp b{color:var(--ocean)}.hcmp p{font-size:.93rem}@media (max-width:860px){.hcmp-g{grid-template-columns:1fr}}
+.hdist{display:grid;grid-template-columns:repeat(3,minmax(0,auto));gap:8px;margin-top:22px;justify-content:start}.hdseg{padding:11px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.95rem;font-weight:700;cursor:pointer}.hdseg[aria-pressed="true"]{background:var(--sunset);border-color:var(--sunset);color:var(--onaccent)}.hclear{background:transparent;border-style:dashed;color:var(--muted)}.hempty{color:var(--muted);padding:20px 0}@media (max-width:520px){.hdist{grid-template-columns:1fr 1fr}.hdist .hdseg[data-hd=all]{grid-column:1/-1}}
 .ht-links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.86rem}
 .ht-links a{font-weight:700;text-decoration:none}
 .hnote{display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:var(--ocean-soft);font-size:.92rem;margin-top:22px}
@@ -1151,8 +1152,29 @@ body.hotelmode .golfbtn{background:var(--sunset)}
     <div class="wrap">
       <p class="eyebrow" style="color:var(--ocean)">Neste gang · 4–5 stjerner nær Fañabé</p>
       <h1>Hvor bor vi<br><em>neste gang?</em></h1>
-      <p class="lead" style="margin-top:16px">15 hoteller med minst fire stjerner, alle innen rundt ti minutter med bil fra Fañabé. Med gjestescore fra TripAdvisor og Hotels.com, hva folk sier om maten, hva som skjer på hotellet og omtrentlig pris for to i februar.</p>
-      <div class="hpick">
+      <p class="lead" style="margin-top:16px">15 hoteller med minst fire stjerner, alle innen rundt ti minutter med bil fra Fañabé, og flere av dem kan dere gå til. Med gjestescore fra TripAdvisor og Hotels.com, hva folk sier om maten, hva som skjer på hotellet og omtrentlig pris for to i februar.</p>
+      <div class="hdist" role="group" aria-label="Avstand fra Lagos de Fañabé">
+        <button class="hdseg" type="button" data-hd="all" aria-pressed="true">Alle</button>
+        <button class="hdseg" type="button" data-hd="walk" aria-pressed="false">🚶 <span>Maks 10 min å gå</span></button>
+        <button class="hdseg" type="button" data-hd="car" aria-pressed="false">🚗 <span>Maks 10 min med bil</span></button>
+      </div>
+      <div class="htools" role="group" aria-label="Filter">
+        <span>Vis (velg flere):</span>
+        <button class="hseg" type="button" data-hf="ai" aria-pressed="false">All inclusive</button>
+        <button class="hseg" type="button" data-hf="ad" aria-pressed="false">Kun voksne</button>
+        <button class="hseg" type="button" data-hf="5" aria-pressed="false">5 stjerner</button>
+        <button class="hseg" type="button" data-hf="tv" aria-pressed="false">TUI / Ving</button>
+        <button class="hseg hclear" type="button" id="hclear" hidden>Nullstill</button>
+      </div>
+      <div class="htools" role="group" aria-label="Sorter">
+        <span>Sorter:</span>
+        <button class="hseg" type="button" data-hs="score" aria-pressed="true">Best score</button>
+        <button class="hseg" type="button" data-hs="price" aria-pressed="false">Billigst</button>
+        <button class="hseg" type="button" data-hs="dist" aria-pressed="false">Nærmest</button>
+      </div>
+      <p class="hcount" id="hcount"></p>
+      <div class="hotels" id="hotels"></div>
+      <div class="hpick" style="margin-top:28px">
         <div><b>Mest for pengene</b><span>H10 Gran Tinerfe: kun voksne, all inclusive, livemusikk og rett på promenaden.</span></div>
         <div><b>Voksen-luksus med all inclusive</b><span>Iberostar Selection Sábila: 5 stjerner, kun voksne, og maten får mye skryt.</span></div>
         <div><b>Unne seg skikkelig</b><span>Royal Hideaway Corales Beach: høyest score, kun voksne og Michelin-mat.</span></div>
@@ -1167,22 +1189,6 @@ body.hotelmode .golfbtn{background:var(--sunset)}
         <p><b>Vår vurdering:</b> <span>For hotellene som selges hos TUI eller Ving lønner pakke seg nesten alltid: lavere pris, transfer og bagasje inkludert, og dere er dekket av pakkereiseloven hvis noe går galt. Å bestille selv lønner seg for hotellene som ikke finnes hos dem (Iberostar, Royal Hideaway, Vincci, Nivaria), hvis dere vil ha andre datoer enn lørdag–lørdag, eller hvis dere får tak i billige Norwegian-billetter tidlig. Unngå vinterferien (uke 8 og 9) hvis dere kan, da stiger prisene mest.</span></p>
         <p class="hcmp-sub">Tips: Søk samme uke hos TUI og Ving, og sammenlign med hotellets egen side (Iberostar og Riu har ofte medlemspris) pluss fly hos Norwegian.</p>
       </div>
-      <div class="htools" role="group" aria-label="Filter" style="margin-top:24px">
-        <span>Vis:</span>
-        <button class="hseg" type="button" data-hf="all" aria-pressed="true">Alle</button>
-        <button class="hseg" type="button" data-hf="ai" aria-pressed="false">All inclusive</button>
-        <button class="hseg" type="button" data-hf="ad" aria-pressed="false">Kun voksne</button>
-        <button class="hseg" type="button" data-hf="5" aria-pressed="false">5 stjerner</button>
-        <button class="hseg" type="button" data-hf="tv" aria-pressed="false">TUI / Ving</button>
-      </div>
-      <div class="htools" role="group" aria-label="Sorter">
-        <span>Sorter:</span>
-        <button class="hseg" type="button" data-hs="score" aria-pressed="true">Best score</button>
-        <button class="hseg" type="button" data-hs="price" aria-pressed="false">Billigst</button>
-        <button class="hseg" type="button" data-hs="dist" aria-pressed="false">Nærmest</button>
-      </div>
-      <p class="hcount" id="hcount"></p>
-      <div class="hotels" id="hotels"></div>
       <div class="hnote"><span><b>Om prisene:</b> Februar er høysesong. Prisene er anslag for en uke (7 netter) for to voksne, uten fly, basert på priser hentet i november 2026 for vinterdatoer hos Hotels.com, hotellenes egne sider og reisebyråer, og justert for februar. Ingen av sidene viste februarpriser ennå, så sjekk aktuell pris før dere booker. Pakkereise med fly kan bli billigere. Hotellene merket TUI eller Ving kan bookes som pakke der. Ving-eksemplene er priser vist 26. november for desember. Kronebeløpene er regnet om med 1 € = 10,71 kr (Wise, 26. november 2026) og rundet til nærmeste hundrelapp.</span></div>
       <div class="hnote" style="margin-top:10px;background:var(--sunk)"><span><b>Om scorene:</b> TripAdvisor (av 5) og Hotels.com (av 10) ble lest av 26. november 2026. Sammendragene bygger på anmeldelser og hotellenes egne sider. Booking.com blokkerte automatisk lesing.</span></div>
       <p style="margin-top:30px"><a class="golfbtn" href="#top" style="display:inline-flex;background:var(--ocean)">← Tilbake til turen</a></p>
@@ -1395,9 +1401,11 @@ body.hotelmode .golfbtn{background:var(--sunset)}
     plus:[['Rimeligst på lista','Cheapest on the list'],['Veldig rent','Very clean']], minus:[['Slitte rom og bad','Dated rooms and bathrooms'],['Ujevn mat','Hit-and-miss food']],
     links:[['TripAdvisor','https://www.tripadvisor.co.uk/Hotel_Review-d500302']]}
   ];
-  var HTXT = {
+  var WALK={nivaria:3,anthelia:3,gffanabe:7,grancosta:8,victoria:8,sabila:10,duque:15,tinerfe:20,vincci:20,riupalace:25,arecas:25,ziva:28,royal:35,h10palace:35,hardrock:0};
+  H.forEach(function(h){ h.walk=WALK[h.id]; });
+  var HTXT = {"Maks 10 min å gå":"Max 10 min walk","Maks 10 min med bil":"Max 10 min by car","Vis (velg flere):":"Show (pick several):","Nullstill":"Clear","min å gå":"min walk","for langt å gå":"too far to walk","Ingen hoteller passer alle valgene. Prøv å fjerne ett.":"No hotels match all choices. Try removing one.",
     'Hoteller':'Hotels','Hoteller neste gang':'Hotels next time','Neste gang · 4–5 stjerner nær Fañabé':'Next time · 4–5 stars near Fañabé','Hvor bor vi':'Where do we stay','neste gang?':'next time?',
-    '15 hoteller med minst fire stjerner, alle innen rundt ti minutter med bil fra Fañabé. Med gjestescore fra TripAdvisor og Hotels.com, hva folk sier om maten, hva som skjer på hotellet og omtrentlig pris for to i februar.':'15 hotels with at least four stars, all within about ten minutes by car from Fañabé. With guest scores from TripAdvisor and Hotels.com, what people say about the food, what goes on at the hotel and an approximate price for two in February.',
+    '15 hoteller med minst fire stjerner, alle innen rundt ti minutter med bil fra Fañabé, og flere av dem kan dere gå til. Med gjestescore fra TripAdvisor og Hotels.com, hva folk sier om maten, hva som skjer på hotellet og omtrentlig pris for to i februar.':'15 hotels with at least four stars, all within about ten minutes by car from Fañabé, and several within walking distance. With guest scores from TripAdvisor and Hotels.com, what people say about the food, what goes on at the hotel and an approximate price for two in February.',
     'Vis:':'Show:','Alle':'All','All inclusive':'All inclusive','Kun voksne':'Adults only','5 stjerner':'5 stars','Sorter:':'Sort:','Best score':'Best rated','Billigst':'Cheapest','Nærmest':'Closest',
     'Vårt forslag':'Our pick','Mest for pengene':'Best value','Voksen-luksus med all inclusive':'Adult luxury with all inclusive','Unne seg skikkelig':'A proper treat',
     'H10 Gran Tinerfe: kun voksne, all inclusive, livemusikk og rett på promenaden.':'H10 Gran Tinerfe: adults only, all inclusive, live music and right on the promenade.',
@@ -1418,16 +1426,22 @@ body.hotelmode .golfbtn{background:var(--sunset)}
   function eur(a,b){ return a ? '<b>'+kr(a)+'–'+kr(b)+' kr</b><small>'+g(a)+'–'+g(b)+' €</small>' : ''; }
   function stars(n){ return '★★★★★'.slice(0,n); }
   function hrender(){
-    var f = (document.querySelector('.hseg[data-hf][aria-pressed="true"]')||{}).dataset, s = (document.querySelector('.hseg[data-hs][aria-pressed="true"]')||{}).dataset;
-    var fk = f ? f.hf : 'all', sk = s ? s.hs : 'score';
-    var list = H.filter(function(h){ return fk==='tv'?!!h.ops : fk==='ai'?h.ai : fk==='ad'?h.adults : fk==='5'?h.st===5 : true; });
+    var on = [].map.call(document.querySelectorAll('.hseg[data-hf][aria-pressed="true"]'),function(b){return b.dataset.hf;});
+    var d = (document.querySelector('.hdseg[aria-pressed="true"]')||{dataset:{hd:'all'}}).dataset.hd;
+    var s = (document.querySelector('.hseg[data-hs][aria-pressed="true"]')||{}).dataset, sk = s ? s.hs : 'score';
+    document.getElementById('hclear').hidden = !on.length;
+    var list = H.filter(function(h){
+      if (d==='walk' && !(h.walk && h.walk<=10)) return false;
+      if (d==='car' && h.min>10) return false;
+      return on.every(function(k){ return k==='tv'?!!h.ops : k==='ai'?h.ai : k==='ad'?h.adults : k==='5'?h.st===5 : true; });
+    });
     var sc = function(h){ return h.hc[0]; };
     if (sk==='price') list.sort(function(a,b){ return (a.lo||a.aiLo)-(b.lo||b.aiLo); });
-    else if (sk==='dist') list.sort(function(a,b){ return a.min-b.min || sc(b)-sc(a); });
+    else if (sk==='dist') list.sort(function(a,b){ return (a.walk||99)-(b.walk||99) || a.min-b.min; });
     else list.sort(function(a,b){ return sc(b)-sc(a) || (b.ta[0]-a.ta[0]); });
     document.getElementById('hcount').innerHTML = '<span>'+list.length+'</span> <span>hotell</span>';
     document.getElementById('hotels').innerHTML = list.map(function(h){
-      var chips = (h.ai?'<span class="ai">All inclusive</span>':'<span>Ikke all inclusive</span>')+(h.adults?'<span class="ad">Kun voksne</span>':'')+'<span class="gf">ca. '+h.min+' <span>min med bil</span></span>';
+      var chips = (h.ai?'<span class="ai">All inclusive</span>':'<span>Ikke all inclusive</span>')+(h.adults?'<span class="ad">Kun voksne</span>':'')+'<span class="gf">🚶 '+(h.walk?'ca. '+h.walk+' <span>min å gå</span>':'<span>for langt å gå</span>')+'</span><span class="gf">🚗 ca. '+h.min+' <span>min med bil</span></span>';
       var rate = '<div><b>'+(h.ta[0]?h.ta[0].toFixed(1).replace('.',',')+'/5':'–')+'</b><small>TripAdvisor'+(h.ta[1]?' · '+h.ta[1]+' ':'')+(h.ta[1]?'<span>anmeldelser</span>':'')+'</small></div>'+
                  '<div><b>'+h.hc[0].toFixed(1).replace('.',',')+'/10</b><small>Hotels.com'+(h.hc[1]?' · '+h.hc[1]+' ':'')+(h.hc[1]?'<span>anmeldelser</span>':'')+'</small></div>';
       var say = h.plus.map(function(p){return '<li><span>'+p[0]+'</span></li>'}).join('')+h.minus.map(function(p){return '<li class="neg"><span>'+p[0]+'</span></li>'}).join('');
@@ -1443,15 +1457,19 @@ body.hotelmode .golfbtn{background:var(--sunset)}
         '<div class="ht-price"><div class="pr"><span class="pl">Halvpensjon / frokost</span><span class="pv">'+p1+'</span></div><div class="pr"><span class="pl">All inclusive</span><span class="pv">'+p2+'</span></div><p class="pn">per uke (7 netter) for to i februar, uten fly</p></div>'+(h.ops?'<div class="ht-ops"><span>Selges hos:</span> '+h.ops.map(function(o){return '<a href="'+o[1]+'" target="_blank" rel="noopener">'+o[0]+'</a>'}).join(' · ')+(h.pkg?'<p>'+h.pkg[0]+'</p>':'')+'</div>':'<div class="ht-ops muted"><span>Ikke funnet hos TUI eller Ving</span></div>')+''+
         '<div class="ht-links">'+links+'</div></article>';
     }).join('');
+    if (!list.length) document.getElementById('hotels').innerHTML = '<p class="hempty">Ingen hoteller passer alle valgene. Prøv å fjerne ett.</p>';
     if(window.__applyLang) window.__applyLang();
   }
-  document.querySelectorAll('.hseg').forEach(function(b){
-    b.addEventListener('click', function(){
-      var grp = b.dataset.hf!==undefined ? '[data-hf]' : '[data-hs]';
-      document.querySelectorAll('.hseg'+grp).forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
-      hrender();
-    });
+  document.querySelectorAll('.hseg[data-hf]').forEach(function(b){
+    b.addEventListener('click', function(){ b.setAttribute('aria-pressed', b.getAttribute('aria-pressed')==='true'?'false':'true'); hrender(); });
   });
+  document.querySelectorAll('.hseg[data-hs]').forEach(function(b){
+    b.addEventListener('click', function(){ document.querySelectorAll('.hseg[data-hs]').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); }); hrender(); });
+  });
+  document.querySelectorAll('.hdseg').forEach(function(b){
+    b.addEventListener('click', function(){ document.querySelectorAll('.hdseg').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); }); hrender(); });
+  });
+  document.getElementById('hclear').addEventListener('click', function(){ document.querySelectorAll('.hseg[data-hf]').forEach(function(x){ x.setAttribute('aria-pressed','false'); }); hrender(); });
   hrender();
 
   // sjekkliste (lagres bare i denne nettleseren)
