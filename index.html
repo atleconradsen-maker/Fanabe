@@ -338,11 +338,15 @@ footer .wrap{display:grid;gap:8px}
 .ht-say li{display:grid;grid-template-columns:18px 1fr;gap:6px}
 .ht-say li::before{content:"+";font-weight:800;color:var(--green)}
 .ht-say li.neg::before{content:"–";color:var(--sunset)}
-.ht-price{margin-top:auto;border-top:1px dashed var(--line);padding-top:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:end}
-.ht-price div{display:grid}
-.ht-price small{font-size:.74rem;color:var(--muted)}
-.ht-price b{font-family:var(--f-display);font-size:1.3rem;font-weight:800;color:var(--ocean);white-space:nowrap}
-.ht-price .na{color:var(--muted);font-size:1rem}
+.ht-price{margin-top:auto;border-top:1px dashed var(--line);padding-top:12px;display:grid;gap:0}
+.ht-price .pr{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.ht-price .pr:last-of-type{border-bottom:0}
+.ht-price .pl{font-size:.86rem;font-weight:600;color:var(--ink);min-width:0}
+.ht-price .pv{text-align:right;display:grid;justify-items:end;line-height:1.2}
+.ht-price b{font-family:var(--f-display);font-size:1.12rem;font-weight:800;color:var(--ocean);white-space:nowrap}
+.ht-price .pv small{font-size:.74rem;color:var(--muted)}
+.ht-price .na{color:var(--muted);font-size:.9rem;font-weight:600}
+.ht-price .pn{font-size:.74rem;color:var(--muted);margin-top:4px}
 .ht-ops{font-size:.86rem;background:var(--banana-soft);border-radius:10px;padding:8px 10px;display:grid;gap:4px}.ht-ops span{color:var(--muted)}.ht-ops a{font-weight:700;text-decoration:none}.ht-ops p{font-size:.84rem}.ht-ops.muted{background:var(--sunk)}
 .hcmp{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px}.hcmp h3{font-size:1.3rem}.hcmp-sub{font-size:.86rem;color:var(--muted)}.hcmp-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hcmp-g div{background:var(--sunk);border-radius:10px;padding:10px 12px;font-size:.92rem}.hcmp b{color:var(--ocean)}.hcmp p{font-size:.93rem}@media (max-width:860px){.hcmp-g{grid-template-columns:1fr}}
 .ht-links{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.86rem}
@@ -1296,7 +1300,7 @@ body.hotelmode .golfbtn{background:var(--sunset)}
     act:['Livemusikk på Sunset Chill-Out Bar, show hver kveld, spa, gym, tennis, yoga og pilates. Tre bassenger (to oppvarmet) og to boblebad.','Live music at the Sunset Chill-Out Bar, nightly shows, spa, gym, tennis, yoga and pilates. Three pools (two heated) and two hot tubs.'],
     plus:[['Kun voksne, rolig og rett på promenaden','Adults only, calm and right on the promenade'],['Mye for pengene med all inclusive','Good value with all inclusive']], minus:[['Noen klager på middagsmaten','Some complaints about dinner food']],
     links:[['TripAdvisor','https://www.tripadvisor.com/Hotel_Review-d289676'],['Hotellets side','https://www.h10hotels.com/en/tenerife-hotels/h10-gran-tinerfe']], pick:true},
-   {id:'sabila', n:'Iberostar Selection Sábila', st:5, area:['Torviscas/Fañabé, ved stranden','Torviscas/Fañabé, beachfront'], min:4, ai:true, adults:true, beach:['Ved stranden','Beachfront'],
+   {id:'sabila', n:'Iberostar Selection Sábila', st:5, area:['Torviscas/Fañabé','Torviscas/Fañabé'], min:4, ai:true, adults:true, beach:['Ved stranden','Beachfront'],
     ta:[4.7,'4 200+'], hc:[9.0,989], lo:280, hi:380, aiLo:380, aiHi:520,
     food:['Stor hovedbuffet til alle måltider pluss Gourmet Market. Gjester skriver «alltid for mye å velge mellom» og «veldig ferskt og variert». Glutenfritt og vegansk er tydelig merket. Noen synes kjøttet kan være seigt.','Large main buffet for every meal plus a Gourmet Market. Guests write "always too much choice" and "very fresh, very varied". Gluten-free and vegan dishes are clearly labelled. Some find the meat a bit tough.'],
     act:['Show og tribute-band på utescenen de fleste kvelder, døgnåpen gym, pilates, yoga, vanngym, spa med badstue. Solsenger på første rad kan reserveres mot betaling.','Shows and tribute acts on the outdoor stage most evenings, 24-hour gym, pilates, yoga, aqua aerobics, spa with sauna. Front-row sunbeds can be reserved for a fee.'],
@@ -1401,7 +1405,7 @@ body.hotelmode .golfbtn{background:var(--sunset)}
   for (var k in HTXT) I18N[k]=HTXT[k];
   var RATE=10.71; function kr(x){ return String(Math.round(x*RATE/100)*100).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
   function g(x){ return String(x).replace(/\B(?=(\d{3})+(?!\d))/g,' '); }
-  function eur(a,b){ return a ? kr(a)+'–'+kr(b)+' kr<small style="display:block;font-family:var(--f-body);font-size:.74rem;font-weight:500;color:var(--muted)">('+g(a)+'–'+g(b)+' €)</small>' : ''; }
+  function eur(a,b){ return a ? '<b>'+kr(a)+'–'+kr(b)+' kr</b><small>'+g(a)+'–'+g(b)+' €</small>' : ''; }
   function stars(n){ return '★★★★★'.slice(0,n); }
   function hrender(){
     var f = (document.querySelector('.hseg[data-hf][aria-pressed="true"]')||{}).dataset, s = (document.querySelector('.hseg[data-hs][aria-pressed="true"]')||{}).dataset;
@@ -1417,14 +1421,14 @@ body.hotelmode .golfbtn{background:var(--sunset)}
       var rate = '<div><b>'+(h.ta[0]?h.ta[0].toFixed(1).replace('.',',')+'/5':'–')+'</b><small>TripAdvisor'+(h.ta[1]?' · '+h.ta[1]+' ':'')+(h.ta[1]?'<span>anmeldelser</span>':'')+'</small></div>'+
                  '<div><b>'+h.hc[0].toFixed(1).replace('.',',')+'/10</b><small>Hotels.com'+(h.hc[1]?' · '+h.hc[1]+' ':'')+(h.hc[1]?'<span>anmeldelser</span>':'')+'</small></div>';
       var say = h.plus.map(function(p){return '<li><span>'+p[0]+'</span></li>'}).join('')+h.minus.map(function(p){return '<li class="neg"><span>'+p[0]+'</span></li>'}).join('');
-      var p1 = h.lo ? '<b>'+eur(h.lo*7,h.hi*7)+'</b>' : '<b class="na">'+(h.ai?'Kun all inclusive':'Ikke oppgitt')+'</b>';
-      var p2 = h.aiLo ? '<b>'+eur(h.aiLo*7,h.aiHi*7)+'</b>' : '<b class="na">Ikke tilbudt</b>';
+      var p1 = h.lo ? eur(h.lo*7,h.hi*7) : '<b class="na">'+(h.ai?'Kun all inclusive':'Ikke oppgitt')+'</b>';
+      var p2 = h.aiLo ? eur(h.aiLo*7,h.aiHi*7) : '<b class="na">Ikke tilbudt</b>';
       var links = h.links.map(function(l){return '<a href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+' →</a>'}).join('');
       return '<article class="ht'+(h.pick?' top':'')+'" id="h-'+h.id+'"><div class="ht-h"><div><h3>'+h.n+'</h3><p class="ht-where"><span>'+h.area[0]+'</span> · <span>'+h.beach[0]+'</span></p></div><span class="ht-stars" aria-label="'+h.st+' stjerner">'+stars(h.st)+'</span></div>'+
         '<div class="ht-chips">'+chips+(h.pick?'<span class="ai">Vårt forslag</span>':'')+'</div><div class="ht-rate">'+rate+'</div>'+
         '<div class="ht-sec"><h4>Maten</h4><p>'+h.food[0]+'</p></div><div class="ht-sec"><h4>På hotellet</h4><p>'+h.act[0]+'</p></div>'+
         '<div class="ht-sec"><h4>Folk sier</h4><ul class="ht-say">'+say+'</ul></div>'+
-        '<div class="ht-price"><div><small>Halvpensjon / frokost</small>'+p1+'</div><div><small>All inclusive</small>'+p2+'</div><small style="grid-column:1/-1">per uke (7 netter) for to i februar, uten fly</small></div>'+(h.ops?'<div class="ht-ops"><span>Selges hos:</span> '+h.ops.map(function(o){return '<a href="'+o[1]+'" target="_blank" rel="noopener">'+o[0]+'</a>'}).join(' · ')+(h.pkg?'<p>'+h.pkg[0]+'</p>':'')+'</div>':'<div class="ht-ops muted"><span>Ikke funnet hos TUI eller Ving</span></div>')+''+
+        '<div class="ht-price"><div class="pr"><span class="pl">Halvpensjon / frokost</span><span class="pv">'+p1+'</span></div><div class="pr"><span class="pl">All inclusive</span><span class="pv">'+p2+'</span></div><p class="pn">per uke (7 netter) for to i februar, uten fly</p></div>'+(h.ops?'<div class="ht-ops"><span>Selges hos:</span> '+h.ops.map(function(o){return '<a href="'+o[1]+'" target="_blank" rel="noopener">'+o[0]+'</a>'}).join(' · ')+(h.pkg?'<p>'+h.pkg[0]+'</p>':'')+'</div>':'<div class="ht-ops muted"><span>Ikke funnet hos TUI eller Ving</span></div>')+''+
         '<div class="ht-links">'+links+'</div></article>';
     }).join('');
     if(window.__applyLang) window.__applyLang();
