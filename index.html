@@ -11,10 +11,20 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<meta http-equiv="Cache-Control" content="no-cache">
 <link rel="apple-touch-icon" sizes="180x180" href="/Fanabe/apple-touch-icon.png?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="/Fanabe/favicon-32.png?v=2">
 <link rel="manifest" href="/Fanabe/manifest.webmanifest?v=2">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<script>
+/* auto-oppdatering: hent nyeste versjon når appen åpnes eller kommer tilbake i forgrunnen */
+(function(){var V='20261126205813',last=0;
+function check(){var n=Date.now();if(n-last<15000)return;last=n;
+fetch('/Fanabe/version.json?t='+n,{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){
+if(j&&j.v&&j.v!==V){var k='fanabe-reload';try{if(sessionStorage.getItem(k)===j.v)return;sessionStorage.setItem(k,j.v);}catch(e){}location.replace(location.pathname+'?v='+j.v+location.hash);}}).catch(function(){});}
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')check();});
+window.addEventListener('pageshow',check);window.addEventListener('focus',check);check();})();
+</script>
 </head>
 <body>
 <style>
